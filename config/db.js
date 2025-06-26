@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 
-// ✅ Ensure global.mongoose is initialized only once
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable.");
+}
+
+// Global is used here to prevent re-creating the connection on hot reload (especially in Next.js dev mode)
 let cached = global.mongoose;
 
 if (!cached) {
@@ -11,15 +17,18 @@ export default async function connectDB() {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI).
-    then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      bufferCommands: false,
+    }).then((mongoose) => mongoose);
   }
 
   try {
     cached.conn = await cached.promise;
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    cached.promise = null; // reset promise if failed
+    console.error("❌ MongoDB connection error:", error);
+    throw error;
   }
 
-  return cached.conn
+  return cached.conn;
 }
