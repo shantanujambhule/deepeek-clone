@@ -11,10 +11,8 @@ export default async function connectDB() {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }).then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(process.env.MONGODB_URI).
+    then((mongoose) => mongoose);
   }
 
   try {
@@ -23,5 +21,5 @@ export default async function connectDB() {
     console.error("Error connecting to MongoDB:", error);
   }
 
-  return cached.conn;
+  return cached.conn
 }
