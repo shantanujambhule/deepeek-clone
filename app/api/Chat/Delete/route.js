@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server"; // ✅ FIXED
 import { NextResponse } from "next/server";
 import connectDB from "@/config/db";
 
+
 export async function POST(req) {
   try {
     const { userId } = auth(); // ✅ Use this in App Router
@@ -10,7 +11,7 @@ export async function POST(req) {
     if (!userId) {
       return NextResponse.json({
         success: false,
-        message: "User not authenticated",
+        message: "user not authenticated",
       });
     }
 
