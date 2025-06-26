@@ -1,5 +1,5 @@
 import Chat from "@/models/Chat";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server"; // ✅ FIXED
 import { NextResponse } from "next/server";
 import connectDB from "@/config/db";
 
