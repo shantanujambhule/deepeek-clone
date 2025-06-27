@@ -2,10 +2,11 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Name is required"],
-  },
+
+  name: {type: String, required: [true, "Name is required"]},
+
+  id: {type: String, required: [true],},
+
   email: {
     type: String,
     required: [true, "Email is required"],
@@ -15,13 +16,13 @@ const UserSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: "",
+    required: [false],
   },
 }, {
   timestamps: true,
 });
 
-// Prevent model overwrite issue in Next.js
+
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
 export default User;

@@ -9,7 +9,7 @@ import {getAuth} from '@clerk/nextjs/server'
 
 const openai = new OpenAI({
         baseURL: 'https://api.deepseek.com',
-        apiKey: process.env.DEEPSEEK_API_KEY,
+        apiKey: process.env.DEEPSEEK_API_KEY
 });
 
 export async function POST(req) {
@@ -30,11 +30,11 @@ try {
     }
 
     data.messages.push(userPrompt);
-    await data.save();
+    
 
-    const response = await openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
         messages:[{role: 'user', content: prompt}],
-        model: 'gpt-3.5-turbo',
+        model: 'deepseek-chat',
         store:true,
     
     });
